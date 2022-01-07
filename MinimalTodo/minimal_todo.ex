@@ -37,7 +37,7 @@ defmodule MinimalTodo do
     todo = IO.gets("Which todo would you like to delete?\n") |> String.trim
     if Map.has_key?(data, todo) do
       IO.puts "ok."
-      new_map = Map.drop(data, todo)
+      new_map = Map.drop(data, [todo])
       IO.puts ~s("#{todo}"" has been deleted!)
       get_command(new_map)
     else
