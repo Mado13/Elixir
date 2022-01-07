@@ -24,7 +24,7 @@ defmodule MinimalTodo do
   end
 
   def show_todos(data, next_command? \\ true) do
-    items = Map.keys data
+    items = Map.keys(data)
     IO.puts "You have the followoing todos:\n"
     Enum.each items, fn item -> IO.puts item end
     IO.puts "\n"
