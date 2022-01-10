@@ -2,9 +2,16 @@ defmodule Servy.Handler do
   def handle(request) do
     request
       |> parse
+      |> rewrite_path
       |> route
       |> format_response
   end
+
+  def rewrite_path(%{ path: "/wildlife" } = conv) do
+    %{ conv | path: "/wildthings" }
+  end
+
+  def rewrite_path(conv), do: conv
 
   def parse(request) do
     [method, path, _] =
@@ -19,23 +26,19 @@ defmodule Servy.Handler do
        status: nil}
   end
 
-  def route(conv) do
-    route(conv, conv.method, conv.path)
-  end
-
-  def route(conv, "GET", "/wildthings") do
+  def route(%{ method: "GET", path: "/wildthings"} = conv) do
     %{ conv | status: 200, resp_body: "Bears, Lions, Tigers" }
   end
 
-  def route(conv, "GET", "/bears") do
+  def route(%{ method: "GET", path: "/bears"} = conv) do
     %{ conv | status: 200, resp_body: "Smoky, Teddy, Peddington"}
   end
 
-  def route(conv, "GET", "/bear/" <> id) do
+  def route(%{ method: "GET", path: "/bear" <> id} = conv) do
     %{ conv | status: 200, resp_body: "Bear #{id}"}
   end
 
-  def route(conv, _method, path) do
+  def route(%{ path: path} = conv) do
     %{ conv | status: 404, resp_body: "No #{path} here!"}
   end
 
@@ -62,7 +65,7 @@ defmodule Servy.Handler do
 end
 
 request = """
-GET /bear/1 HTTP/1.1
+GET /wildlife HTTP/1.1
 HOST: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
