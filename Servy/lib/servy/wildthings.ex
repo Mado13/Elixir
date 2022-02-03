@@ -11,7 +11,7 @@ defmodule Servy.Wildthings do
       %Bear{id: 6, name: "Brutus", type: "Grizzly"},
       %Bear{id: 7, name: "Rosie", type: "Black", hibernating: true},
       %Bear{id: 8, name: "Roscoe", type: "Panda"},
-      %Bear{id: 9, name: "Iceman", type: "Polar", hibernating: true },
+      %Bear{id: 9, name: "Iceman", type: "Polar", hibernating: true},
       %Bear{id: 10, name: "Kenai", type: "Grizzly"}
     ]
   end
@@ -23,4 +23,5 @@ defmodule Servy.Wildthings do
   def get_bear(id) when is_binary(id) do
     id |> String.to_integer |> get_bear
   end
+
 end
